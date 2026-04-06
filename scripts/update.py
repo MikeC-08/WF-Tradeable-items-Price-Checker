@@ -1,5 +1,6 @@
 from scripts import req
 import json
+import os
 
 
 def itemList():
@@ -21,7 +22,9 @@ def itemList():
     
     for key in pre_remove:
         new_item_dict_zh_hant.pop(key)
-    
+
+    if not os.path.exists("data"):
+        os.mkdir("data")
     with open(r"data\items_list.json", 'w', encoding="utf-8") as file:
         json.dump(new_item_dict_zh_hant, file, ensure_ascii=False , indent=4)
     
