@@ -6,4 +6,4 @@
 2. 待完結後，再次按下\<Enter\>鍵關閉界面。
 
 <img width="488" height="339" alt="image" src="https://github.com/user-attachments/assets/42c67c27-b2af-4566-a48c-54c3b80e6ad8" />
-<img width="512" height="218" alt="image" src="https://github.com/user-attachments/assets/072a5aae-acd2-4961-b661-1b3bdf89b37c" />
+<img width="512" height="288" alt="image" src="https://github.com/user-attachments/assets/072a5aae-acd2-4961-b661-1b3bdf89b37c" />
