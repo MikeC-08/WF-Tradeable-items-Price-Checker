@@ -1,2 +1,1 @@
-# WF-Tradeable-items-Price-Checker
-Warframe Tradeable items Price Checker
+# Warframe Market 價格查詢
