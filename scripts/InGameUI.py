@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QWidget
 from scripts.UI_scripts.InGameUI_ui import Ui_Form
 from PySide6.QtCore import Qt
 import win32gui
-import pygetwindow as gw
 
 
 class Window(QWidget):
@@ -29,8 +28,6 @@ class Window(QWidget):
         self.move(15,180)
         
     def setWFAsParent(self):
-        titles = gw.getAllTitles()
-        print(titles)
         cid = self.winId()
         pid = win32gui.FindWindow(None, u"Warframe")
         win32gui.SetParent(cid,pid)

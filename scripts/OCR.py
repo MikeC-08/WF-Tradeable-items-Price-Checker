@@ -41,9 +41,9 @@ def process_with_easyocr(roi, reader):
     
     print("="*30)
     final_text = " ".join(results)
-    print(f"【結果】")
-    print(final_text if final_text else "(無辨識結果)")
-    print("-" * 30)
+    # print(f"【結果】")
+    # print(final_text if final_text else "(無辨識結果)")
+    # print("-" * 30)
     return final_text
 
 
