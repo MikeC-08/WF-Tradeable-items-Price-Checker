@@ -12,11 +12,13 @@ STOP_shot = queue.Queue(1)
 class HBMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.has_setWFAsParent = False
         self.reader = easyocr.Reader(['ch_tra', 'en'], gpu=False) 
         update.itemList()
         
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowTitle("WF遺物小助手")
         self.ui.Stop_btn.setDisabled(True)
 
         self.ui.Start_btn.clicked.connect(self.Start_Listening)
@@ -78,6 +80,9 @@ class HBMainWindow(QMainWindow):
                         item.setText("查詢中...")
                     for item in self.price_items:
                         item.setText("-")
+                    if not self.has_setWFAsParent:
+                        self.inGameUI.setWFAsParent()
+                        self.has_setWFAsParent=True
                     self.inGameUI_status = 1
                     self.inGameUI.show()
                     screenshot.take_screenshot()
@@ -113,7 +118,6 @@ def main():
     hb_window = HBMainWindow()
     hb_window.show()
     app.exec()
-
 
 if __name__ == "__main__":
     main()
