@@ -209,3 +209,6 @@ __marimo__/
 # 資料
 data/
 screenshots/
+scripts/__pycache__/
+scripts/UI_scripts/__pycache__/
+*.pyc
