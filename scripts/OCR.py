@@ -1,6 +1,7 @@
 import cv2
-import easyocr
 import os
+os.environ['PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK'] = "True"
+
 
 def crop(image_path, no_of_people:str):
     if not os.path.exists(image_path):
@@ -36,19 +37,31 @@ def crop(image_path, no_of_people:str):
         rois.append(roi)
     return rois
 
-def process_with_easyocr(roi, reader):
-    results = reader.readtext(roi, detail=0)
-    
-    print("="*30)
-    final_text = " ".join(results)
+def process_with_PaddleOCR(rois, PaddleOCR):
+    # results = reader.readtext(roi, detail=0)
+    OCR_results = PaddleOCR.predict(rois)
+    Raw_results = []
+    for result in OCR_results:
+        Raw_results.append(" ".join(result.get("rec_texts", "")).strip())
     # print(f"【結果】")
     # print(final_text if final_text else "(無辨識結果)")
     # print("-" * 30)
-    return final_text
+    return Raw_results
 
 
-if __name__ == "__main__":
-    target_image = r"samples\202604~2.JPG" 
-    rois = crop(target_image)
-    for roi in rois:
-        process_with_easyocr(roi, reader = easyocr.Reader(['ch_tra', 'en'], gpu=True))
+# if __name__ == "__main__":
+#     import time 
+#     from paddleocr import TextRecognition
+#     model = TextRecognition(model_name="PP-OCRv5_mobile_rec")
+#     target_image = r"samples\202604~2.JPG" 
+#     rois = crop(target_image, "4")
+    
+#     now = time.time()
+#     OCR_results = model.predict(rois)
+#     Raw_results = []
+#     for result in OCR_results:
+#         Raw_results.append(" ".join(result.get("rec_text", "")))
+#     print("time:", time.time()-now)
+    
+#     for i, ocr_text_result in enumerate(Raw_results):
+#         print(i, ocr_text_result)

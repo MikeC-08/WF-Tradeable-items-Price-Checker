@@ -26,8 +26,9 @@ class Window(QWidget):
         self.ui.setupUi(self)
         self.setWindowTitle("WF遺物小助手_InGameUI")
         self.move(15,180)
+        self.pid = 0
         
     def setWFAsParent(self):
         cid = self.winId()
-        pid = win32gui.FindWindow(None, u"Warframe")
-        win32gui.SetParent(cid,pid)
+        win32gui.SetParent(cid,self.pid)
+    

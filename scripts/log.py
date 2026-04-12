@@ -28,7 +28,7 @@ def tail_ee_log(file_path):
         while True:
             current_pos = f.tell()
             line = f.readline()
-            if time.time() > start_waiting + 4 and start_waiting > 0 :
+            if time.time() > start_waiting + 2 and start_waiting > 0 :
                 timeout = True
                 start_waiting = 0
                 print(f"開始選擇物品| {count}選1 (timeout)")
@@ -64,12 +64,13 @@ def log_checker():
                 
             elif "gets reward /" in new_line and not timeout:
                 start_waiting = 0
-                print(f"開始選擇物品| {count}選1")
+                # print(f"開始選擇物品| {count}選1")
+                time.sleep(3)
                 void_drops.put(count)
                 count = 0
             
             elif "ProjectionRewardChoice.lua: Relic reward screen shut down" in new_line:
-                print("選擇階段結束")
+                # print("選擇階段結束")
                 void_drops.put(-1)
                 speed = "slow"
                 timeout = False
@@ -77,6 +78,9 @@ def log_checker():
                 
             elif not shotdown.empty():
                 break
+    except Exception as e:
+        print(f"[ERROR] log_checker 執行緒失敗: {repr(e)}")
+        import traceback
+        traceback.print_exc()
     except KeyboardInterrupt:
         print("停止追蹤。")
-        

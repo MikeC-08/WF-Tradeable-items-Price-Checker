@@ -22,6 +22,8 @@ def itemList():
     
     for key in pre_remove:
         new_item_dict_zh_hant.pop(key)
+    
+    new_item_dict_zh_hant['Forma'] = "Forma"
 
     if not os.path.exists("data"):
         os.mkdir("data")
