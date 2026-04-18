@@ -6,6 +6,7 @@ import re
 ready = queue.Queue(1)
 void_drops = queue.Queue(1)
 shotdown = queue.Queue(1)
+log_message = queue.Queue()
 sleep_var = {
     "slow": 0.5,
     "fast": 0.05
@@ -13,7 +14,7 @@ sleep_var = {
 speed = "slow"
 timeout = False
 start_waiting = 0
-count = 0
+count = 1
 
 def tail_ee_log(file_path):
     global speed, timeout, start_waiting, count
@@ -32,8 +33,9 @@ def tail_ee_log(file_path):
                 timeout = True
                 start_waiting = 0
                 print(f"開始選擇物品| {count}選1 (timeout)")
+                log_message.put(f"開始選擇物品| {count}選1 (t)")
                 void_drops.put(count)
-                count = 0
+                count = 1
             if not line and shotdown.empty():
                 f.seek(current_pos)
                 time.sleep(sleep_var[speed])
@@ -52,6 +54,7 @@ def log_checker():
             if "SQUAD Session has " in new_line:
                 result = re.search(r"SQUAD Session has (.*?)/4", new_line)
                 if result:
+                    log_message.put(f"人數{result[1]}/4")
                     print(f"* {result[1]}/4")
                     count = int(result[1])
             
@@ -64,11 +67,18 @@ def log_checker():
                 
             elif "gets reward /" in new_line and not timeout:
                 start_waiting = 0
-                # print(f"開始選擇物品| {count}選1")
+                print(f"開始選擇物品| {count}選1 (gets reward)")
                 time.sleep(3)
                 void_drops.put(count)
-                count = 0
-            
+                count = 1
+                
+            elif "VoidProjections: GetVoidProjectionRewards" in new_line and not timeout:
+                start_waiting = 0
+                print(f"開始選擇物品| {count}選1 (VoidProjections)")
+                time.sleep(3)
+                void_drops.put(count)
+                count = 1
+                
             elif "ProjectionRewardChoice.lua: Relic reward screen shut down" in new_line:
                 # print("選擇階段結束")
                 void_drops.put(-1)

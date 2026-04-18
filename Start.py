@@ -54,7 +54,10 @@ class HBMainWindow(QMainWindow):
         self.ui_signal.update_status_text.connect(lambda text: self.inGameUI.ui.Status_Holder.setText(text))
 
     def communicator(self):
-
+        
+        if not log.log_message.empty():
+            message = log.log_message.get()
+            self.ui.status_message_textBox.setText(message)
         
         # check if warframe launch
         self.inGameUI.pid = win32gui.FindWindow(None, u"Warframe")
@@ -66,8 +69,10 @@ class HBMainWindow(QMainWindow):
             
         else:
             self.ui.status_value.setText("Warframe EE.log 讀取中")
+            self.inGameUI.ui.Status_Holder.setText("Warframe EE.log 讀取中")
             if self.PaddleOCR is None:
                 self.ui.status_value.setText("模型讀取中")
+                self.inGameUI.ui.Status_Holder.setText("模型讀取中")
                 self.PaddleOCR = PaddleOCR(
                     text_detection_model_name="PP-OCRv5_mobile_det",
                     text_recognition_model_name="PP-OCRv5_mobile_rec",
@@ -81,11 +86,15 @@ class HBMainWindow(QMainWindow):
         # check if app ready
         if not log.ready.empty() and self.inGameUI.pid != 0:
             self.ui.status_value.setText("就緒")
+            self.inGameUI.ui.Status_Holder.setText("遺物小助手已就緒")
             if not self.has_setWFAsParent:
                 self.inGameUI.setWFAsParent()
                 self.has_setWFAsParent=True
+                self.inGameUI.ui.Status_Holder.setText("")
+                self.inGameUI.ui.Message_holder.setText("")
+                self.inGameUI.ui.Status_Holder1.setText("")
                 self.inGameUI.show()
-                self.inGameUI.setVisible(False)
+                self.inGameUI.ui.VoidDrop_Frame.setVisible(False)
 
         
         # screenshot ~callback
@@ -100,19 +109,22 @@ class HBMainWindow(QMainWindow):
                 self.inGameUI.ui.Message_holder.setText(f"* 選擇階段 【{message}選1】")
                 print(f"* 選擇階段 【{message}選1】")
                 # self.inGameUI.show()
-                self.inGameUI.setVisible(True)
+                self.inGameUI.ui.VoidDrop_Frame.setVisible(True)
                 for index in range(4):
+                    self.result_items[index].show()
                     self.result_items[index].setText("<掃描中>")
+                    self.price_items[index].show()
                     self.price_items[index].setText("-")
 
                 self.TeamMenber = message
-                self.inGameUI.ui.Status_Holder.setText(f"> 截圖中")
+                # self.inGameUI.ui.Status_Holder.setText(f"> 截圖中")
                 print(f"* 截圖中")
                 screenshot.take_screenshot()
             if message < 0:
                 print(f"* 選擇階段結束")
+                self.inGameUI.ui.Message_holder.setText(f"")
                 self.inGameUI.ui.Status_Holder.setText(f"")
-                self.inGameUI.setVisible(False)
+                self.inGameUI.ui.VoidDrop_Frame.setVisible(False)
 
         
         if not prices_Queue.empty():
@@ -129,7 +141,9 @@ class HBMainWindow(QMainWindow):
         rois = OCR.crop(r"screenshots\temp.png", str(self.TeamMenber))
         for i in range(4-len(rois)):
             self.result_items[3-i].setText("")
+            self.result_items[3-i].hide()
             self.price_items[3-i].setText("")  
+            self.price_items[3-i].hide()  
             
         def price_get_worker(rois):
             try:

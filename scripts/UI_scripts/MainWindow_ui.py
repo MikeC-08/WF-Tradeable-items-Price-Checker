@@ -28,17 +28,14 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.status_value = QLabel(self.centralwidget)
+        self.status_value.setObjectName(u"status_value")
+        font = QFont()
+        font.setFamilies([u"\u5fae\u8edf\u6b63\u9ed1\u9ad4"])
+        font.setPointSize(18)
+        self.status_value.setFont(font)
 
-        self.gridLayout.addItem(self.verticalSpacer_3, 0, 0, 1, 4)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout.addItem(self.verticalSpacer_2, 6, 0, 1, 4)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.status_value, 2, 2, 1, 1)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -46,19 +43,32 @@ class Ui_MainWindow(object):
 
         self.status_label = QLabel(self.centralwidget)
         self.status_label.setObjectName(u"status_label")
-        font = QFont()
-        font.setFamilies([u"\u5fae\u8edf\u6b63\u9ed1\u9ad4"])
-        font.setPointSize(18)
         self.status_label.setFont(font)
         self.status_label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.gridLayout.addWidget(self.status_label, 2, 1, 1, 1)
 
-        self.status_value = QLabel(self.centralwidget)
-        self.status_value.setObjectName(u"status_value")
-        self.status_value.setFont(font)
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout.addWidget(self.status_value, 2, 2, 1, 1)
+        self.gridLayout.addItem(self.verticalSpacer_3, 0, 0, 1, 4)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout.addItem(self.verticalSpacer_2, 8, 0, 1, 4)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer, 2, 0, 1, 1)
+
+        self.status_message_textBox = QLabel(self.centralwidget)
+        self.status_message_textBox.setObjectName(u"status_message_textBox")
+        font1 = QFont()
+        font1.setFamilies([u"\u5fae\u8edf\u6b63\u9ed1\u9ad4"])
+        font1.setPointSize(12)
+        self.status_message_textBox.setFont(font1)
+        self.status_message_textBox.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.status_message_textBox, 3, 0, 1, 4)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -76,7 +86,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.status_label.setText(QCoreApplication.translate("MainWindow", u"\u72c0\u614b\uff1a", None))
         self.status_value.setText(QCoreApplication.translate("MainWindow", u"\u6e96\u5099\u4e2d", None))
+        self.status_label.setText(QCoreApplication.translate("MainWindow", u"\u72c0\u614b\uff1a", None))
+        self.status_message_textBox.setText("")
     # retranslateUi
 

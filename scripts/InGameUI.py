@@ -25,7 +25,7 @@ class Window(QWidget):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.setWindowTitle("WF遺物小助手_InGameUI")
-        self.move(15,180)
+        # self.move(15,180)
         self.pid = 0
         
     def setWFAsParent(self):
